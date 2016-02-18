@@ -1,0 +1,11 @@
+<div ng-controller='ctrl' ng-init='init()'>
+  <input type='number' ng-model='id'>
+  <input type='text' ng-model='room'>
+  <button ng-click='connect()' ng-disabled='status'>connect</button>
+  {{status}}
+  <br>
+  <button ng-click='send()'>Send msg</button>
+  <input type='text' ng-model='msg'>
+  To
+  <input type='number' ng-model='to'>
+</div>

@@ -4,5 +4,4 @@ Rails.application.routes.draw do
   # Serve websocket cable requests in-process
   mount ActionCable.server => '/cable'
   get '/', to: 'main#index'
-  get '/msg', to: 'main#msg'
 end

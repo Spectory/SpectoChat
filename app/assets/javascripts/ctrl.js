@@ -6,6 +6,7 @@ angular.module('app').controller('ctrl', function ($scope) {
   $scope.connect = function () {
     var App = {};
     document.cookie = "id=" + $scope.id;
+    console.log($scope.room);
     App.cable = ActionCable.createConsumer("ws://localhost:3000/cable");
 
     $scope.group = App.cable.subscriptions.create({ channel: "ChatChannel", group: $scope.room }, {
@@ -48,10 +49,10 @@ angular.module('app').controller('ctrl', function ($scope) {
   };
 
   $scope.send = function () {
-    if ($scope.to === undefined) {
-      $scope.group.send({ room: $scope.room, body: $scope.msg });
-    } else {
+    if ($scope.to !== undefined && $scope.to > 0) {
       $scope.private.send({ to: $scope.to, body: $scope.msg });
+    } else {
+      $scope.group.send({ room: $scope.room, body: $scope.msg });
     }
   };
 });

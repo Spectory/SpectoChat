@@ -12,37 +12,29 @@ class PrivateChannel < ApplicationCable::Channel
   end
 
   def receive(data)
-    groups = YAML::load(File.open('config/groups.yml'))
-    groups.each do |group|
-    end
-
     ActionCable.server.broadcast "private_#{data['to']}", data if are_sharing_group(current_user.to_i, data['to'].to_i)
   end
 
   def are_sharing_group(id1, id2)
-    groups = YAML::load(File.open('config/groups.yml'))
-    groups["groups"].values.each do |group|
-      id1_present = false
-      id2_present = false
-      group.each do |member|
-        id1_present = true if member == id1
-        id2_present = true if member == id2
+    begin
+      user1 = User.find(id1)
+      user2 = User.find(id2)
 
-        return true if id1_present && id2_present
-      end
+      conn = ActiveRecord::Base.connection
+      res = conn.execute('SELECT group_id FROM groups_users WHERE (user_id = ' + user1.id.to_s + ' OR user_id = ' + user2.id.to_s + ') GROUP BY group_id HAVING COUNT(group_id) > 1')
+
+      return res.count > 0
+    rescue
+      return false
     end
-
-    false
   end
 
   def member_exists?(id)
-    groups = YAML::load(File.open('config/groups.yml'))
-    groups["groups"].values.each do |group|
-      group.each do |member|
-        return true if id == member
-      end
+    begin
+      User.find(id)
+      return true
+    rescue
+      return false
     end
-
-    false
   end
 end

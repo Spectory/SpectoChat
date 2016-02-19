@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', path: "/home/spectory/.rvm/gems/ruby-2.2.4@rails-5-edge-test/bundler/gems/rails-13c4cc3b5aea"
 
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'pg'
 # Use Puma as the app server
 gem 'puma'
 # Use SCSS for stylesheets

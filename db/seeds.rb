@@ -5,3 +5,10 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+Group.create(name: 'a')
+Group.create(name: 'b')
+Group.create(name: 'c')
+User.create(group: Group.where(name: ['a']))
+User.create(group: Group.where(name: ['a', 'b']))
+User.create(group: Group.where(name: ['b', 'c']))
+User.create(group: Group.where(name: ['a']))
